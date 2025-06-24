@@ -1,0 +1,27 @@
+body {
+  background-color: black;
+}
+
+.page {
+  max-width: 880px;
+  margin: 45px auto 0;
+  font-family: "Inter-Regular", sans-serif;
+}
+
+.btn:hover:not(:disabled) {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 584px) {
+  .page {
+    max-width: 282px;
+    margin-top: 26px;
+  }
+}
+
+@media screen and (min-width: 584px) and (max-width: 880px) {
+  .page {
+    max-width: 584px;
+  }
+}

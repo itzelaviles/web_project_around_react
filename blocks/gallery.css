@@ -1,0 +1,79 @@
+.gallery {
+  max-width: 880px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(282px, 1fr));
+  gap: 20px 17px;
+  justify-content: center;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.gallery-card {
+  position: relative;
+  width: 100%; /* Ahora es relativo al grid */
+  max-width: 282px;
+  height: 361px;
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.gallery-card__image {
+  width: 100%;
+  height: 282px;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-card__btn_trash {
+  width: 18px;
+  height: 19px;
+  border: none;
+  position: absolute;
+  background-image: url(../images/trash-icon.svg);
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+}
+
+.gallery-card__image:hover {
+  cursor: pointer;
+}
+
+.gallery-card__info {
+  max-width: 246px;
+  font-family: "Inter-Black";
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 26px auto;
+  box-sizing: content-box;
+}
+
+.gallery-card__title {
+  max-width: 220px;
+  line-height: 1.2;
+  font-family: "Inter-Black", sans-serif;
+  font-size: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.gallery-card__btn:hover {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.gallery-card__btn_like {
+  border: none;
+  width: 25px;
+  height: 19px;
+  background: url(../images/btn-like.svg) center no-repeat;
+}
+
+.gallery-card__btn_like_active {
+  background-image: url(../images/btn-like-active.svg);
+}
+
