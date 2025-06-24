@@ -39,15 +39,7 @@ main {
 
 h1 {
   font-size: 2em;
-  margin: 0;
-}
-
-h2 {
-  margin: 0;
-}
-
-p {
-  margin: 0;
+  margin: 0.67em 0;
 }
 
 /* Agrupación de contenido
