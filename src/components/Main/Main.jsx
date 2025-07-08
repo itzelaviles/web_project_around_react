@@ -1,47 +1,28 @@
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import NewCard from "../NewCard/NewCard";
 import EditProfile from "../EditProfile/EditProfile";
 import EditAvatar from "../EditAvatar/EditAvatar";
 import Popup from "./components/Popup/Popup";
 import Card from "./components/Card/Card";
 import ImagePopup from "./components/ImagePopup/ImagePopup";
+import api from "../../utils/api";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-const cards = [
-  {
-    isLiked: false,
-    _id: "5d1f0611d321eb4bdcd707dd",
-    name: "Yosemite Valley",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_yosemite.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:10:57.741Z",
-  },
-  {
-    isLiked: false,
-    _id: "5d1f064ed321eb4bdcd707de",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-  {
-    isLiked: true,
-    _id: "5d1f064ed321eb4bdcd707df",
-    name: "Lake Louise",
-    link: "https://practicum-content.s3.us-west-1.amazonaws.com/web-code/moved_lake-louise.jpg",
-    owner: "5d1f0611d321eb4bdcd707dd",
-    createdAt: "2019-07-05T08:11:58.324Z",
-  },
-];
-
-console.log(cards);
-
-function Main() {
-  const [popup, setPopup] = useState(null);
+function Main({
+  onOpenPopup,
+  onClosePopup,
+  popup,
+  cards,
+  onCardLike,
+  onCardDelete,
+  onAddPlaceSubmit
+}) {
+  const { currentUser } = useContext(CurrentUserContext);
   const [selectedCard, setSelectedCard] = useState(null);
 
   const newCardPopup = {
     title: "Nuevo lugar",
-    children: <NewCard />
+    children: <NewCard onAddPlaceSubmit={onAddPlaceSubmit} />,
   };
   const editProfilePopup = {
     title: "Editar perfil",
@@ -52,14 +33,6 @@ function Main() {
     children: <EditAvatar />,
   };
 
-  function handleOpenPopup(popup) {
-    setPopup(popup);
-  }
-
-  function handleClosePopup() {
-    setPopup(null);
-  }
-
   function handleCardClick(card) {
     setSelectedCard(card);
   }
@@ -69,15 +42,19 @@ function Main() {
       <section className="profile">
         <div
           className="profile__avatar-container profile__btn_edit-avatar"
-          onClick={() => handleOpenPopup(editAvatarPopup)}
+          onClick={() => onOpenPopup(editAvatarPopup)}
         >
-          <img className="profile__avatar" src="#" alt="Avatar" />
+          <img
+            className="profile__avatar"
+            src={currentUser?.avatar}
+            alt="Avatar"
+          />
         </div>
         <div className="profile__info">
-          <p className="profile__name">Nombre</p>
+          <p className="profile__name">{currentUser?.name}</p>
           <button
             className="profile__btn profile__btn_edit-info"
-            onClick={() => handleOpenPopup(editProfilePopup)}
+            onClick={() => onOpenPopup(editProfilePopup)}
           >
             <svg
               width="10"
@@ -92,11 +69,11 @@ function Main() {
               />
             </svg>
           </button>
-          <p className="profile__description">Descripcion</p>
+          <p className="profile__description">{currentUser?.about}</p>
         </div>
         <button
           className="profile__btn profile__btn_add-post"
-          onClick={() => handleOpenPopup(newCardPopup)}
+          onClick={() => onOpenPopup(newCardPopup)}
         >
           <svg
             width="22"
@@ -115,22 +92,23 @@ function Main() {
       <section className="gallery">
         {cards.map((card) => (
           <Card
-          key={card._id}
-          card={card}
-          onCardClick={handleCardClick}/>
+            key={card._id}
+            card={card}
+            onCardClick={handleCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+            // currentUser={currentUser}
+          />
         ))}
       </section>
-      {/*La condición es que, si popup no es null, se renderiza el componente Popup y
+      {/*La condicion es que, si popup no es null, se renderiza el componente Popup y
         se pasan popup.title como title y popup.children como children*/}
       {popup && (
-        <Popup onClose={handleClosePopup} title={popup.title}>
+        <Popup onClose={onClosePopup} title={popup.title}>
           {popup.children}
         </Popup>
       )}
-      <ImagePopup
-        card={selectedCard}
-        onClose={() => setSelectedCard(null)}
-      />
+      <ImagePopup card={selectedCard} onClose={() => setSelectedCard(null)} />
     </main>
   );
 }

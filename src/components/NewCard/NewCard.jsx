@@ -1,6 +1,24 @@
-function NewCard() {
+import { useState } from "react";
+
+function NewCard({ onAddPlaceSubmit }) {
+  const [title, setTitle] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    onAddPlaceSubmit({ title, imageUrl });
+  };
+
+  const handleTitleChange = (evt) => {
+    setTitle(evt.target.value);
+  }
+
+  const handleImageUrlChange = (evt) => {
+    setImageUrl(evt.target.value);
+  }
+
   return (
-    <form className="pop-up__form" id="new-place-form">
+    <form className="pop-up__form" id="new-place-form" onSubmit={handleSubmit}>
       <input
         id="popup-place-title"
         name="title"
@@ -10,6 +28,8 @@ function NewCard() {
         minLength="2"
         maxLength="30"
         required
+        value={title}
+        onChange={handleTitleChange}
       />
       <span className="pop-up__input-error popup-place-title-error"></span>
 
@@ -22,6 +42,8 @@ function NewCard() {
         id="popup-place-img"
         placeholder="Enlace a la imagen"
         required
+        value={imageUrl}
+        onChange={handleImageUrlChange}
       />
       <span className="pop-up__input-error popup-place-img-error"></span>
 
