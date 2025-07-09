@@ -16,7 +16,6 @@ function App() {
       try {
         const cardsData = await api.getInitialCards();
         setCards(cardsData);
-        console.log(cardsData)
       } catch (err) {
         console.error("Error al obtener tarjetas:", err);
       }
